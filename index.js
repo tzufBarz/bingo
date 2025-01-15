@@ -12,15 +12,15 @@ function createTable(arr) {
 
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
-            while (true) {
+            if (!result[i]) {
+                result[i] = [];
+            }
+            if (i == 2 && j == 2) result[i][j] = null;
+            else while (true) {
                 randomIndex = Math.floor(Math.random() * arr.length);
                 if (!selectedIndices.has(randomIndex)) {
                     selectedIndices.add(randomIndex);
-                    if (!result[i]) {
-                        result[i] = [];
-                    }
-                    if (i == 2 && j == 2) result[i][j] = null;
-                    else result[i][j] = arr[randomIndex];
+                    result[i][j] = arr[randomIndex];
                     break;
                 }
             }

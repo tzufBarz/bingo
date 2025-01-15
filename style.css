@@ -1,6 +1,7 @@
 body {
     background-color: #111111;
     margin: 0;
+    font-family: sans-serif;
 }
 
 .bingo-container {
@@ -32,22 +33,27 @@ body {
     height: 15vmin;
     padding: 1vmin;
     text-align: center;
-    transition: 0.15s;
+    transition: 0.2s;
+    transition-delay: 0.1s;
     cursor: pointer;
 }
 
-.bingo-container td:hover {
-    transform: scale(0.95);
+.bingo-container td:hover, .bingo-container td.clicked[counter="0"]:hover {
+    transition: 0.1s;
+    transition-delay: 0s;
+    transform: scale(0.9);
 }
 
 .bingo-container td.clicked {
-    background-color: #46f32f;
+    background: #46f32f;
     color: black;
+    transform: scale(0.9);
 }
 
 .bingo-container td.clicked[counter="0"] {
     background-color: #f3f3f3;
     outline: none;
+    transform: none;
 }
 
 #board-selector {
