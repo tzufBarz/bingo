@@ -1,0 +1,51 @@
+body {
+    background-color: #111111;
+    margin: 0;
+}
+
+.bingo-container {
+    height: 100vh;
+    width: 80vw;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.bingo-container table {
+    border-spacing: 5px;
+}
+
+.bingo-container td {
+    background-color: #f3f3f3;
+    border-radius: 2vmin;
+    width: 15vmin;
+    height: 15vmin;
+    padding: 1vmin;
+    text-align: center;
+    transition: 0.15s;
+    user-select: none;
+    cursor: pointer;
+}
+
+.bingo-container td:hover {
+    transform: scale(0.95);
+}
+
+.bingo-container td.clicked {
+    background-color: #119100;
+    color: black;
+}
+
+.bingo-container td.clicked[counter="0"] {
+    background-color: #1b1b1b;
+    color: white;
+}
+
+#board-selector {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: lightgreen;
+    padding: 10px;
+}
