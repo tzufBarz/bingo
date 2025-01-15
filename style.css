@@ -25,7 +25,8 @@ body {
 }
 
 .bingo-container td {
-    background-color: #f3f3f3;
+    background-color: #1b1b1b;
+    color: white;
     border-radius: 2vmin;
     width: 15vmin;
     height: 15vmin;
@@ -40,13 +41,12 @@ body {
 }
 
 .bingo-container td.clicked {
-    background-color: #119100;
+    background-color: #46f32f;
     color: black;
 }
 
 .bingo-container td.clicked[counter="0"] {
-    background-color: #1b1b1b;
-    color: white;
+    background-color: #f3f3f3;
     outline: none;
 }
 
