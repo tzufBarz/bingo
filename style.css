@@ -61,3 +61,27 @@ body {
     right: 5.5vmin;
     top: 5.5vmin; 
 }
+
+@media print {
+    /* Hide header and footer */
+    @page {
+        margin: 0;
+    }
+
+    body {
+        margin: 2px;
+    }
+
+    #board-selector {
+        display: none;
+    }
+
+    .bingo-container table {
+        /* border-collapse: collapse; */
+    }
+
+    .bingo-container td {
+        border: 1px solid black;
+        /* border-radius: 0; */
+    }
+}
