@@ -10,10 +10,18 @@ body {
     margin: auto;
     justify-content: center;
     align-items: center;
+    
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .bingo-container table {
-    border-spacing: 5px;
+    border-spacing: 1vmin;
 }
 
 .bingo-container td {
@@ -24,7 +32,6 @@ body {
     padding: 1vmin;
     text-align: center;
     transition: 0.15s;
-    user-select: none;
     cursor: pointer;
 }
 
@@ -40,12 +47,11 @@ body {
 .bingo-container td.clicked[counter="0"] {
     background-color: #1b1b1b;
     color: white;
+    outline: none;
 }
 
 #board-selector {
     position: absolute;
-    right: 20px;
-    top: 20px;
-    background-color: lightgreen;
-    padding: 10px;
+    right: 5.5vmin;
+    top: 5.5vmin; 
 }
