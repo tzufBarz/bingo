@@ -77,7 +77,7 @@ function cellClicked(td, i, j) {
     td.classList.toggle("clicked");
 
     const modifyCell = cellActive(td) ? incrementCell : decrementCell;
-    
+
     if ([...table.children[i].children].filter(cell => cell != td).every(cellActive)) {
         [...table.children[i].children].forEach(modifyCell);
     }

@@ -77,11 +77,11 @@ body {
     }
 
     .bingo-container table {
-        /* border-collapse: collapse; */
+        border-collapse: collapse;
     }
 
     .bingo-container td {
         border: 1px solid black;
-        /* border-radius: 0; */
+        border-radius: 0;
     }
 }
