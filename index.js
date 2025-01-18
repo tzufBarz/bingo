@@ -78,7 +78,7 @@ function cellClicked(td, i, j) {
     const getCounter = (cell) => parseInt(cell.getAttribute("counter"));
     const incrementCell = (cell) => cell.setAttribute("counter", getCounter(cell) + 1);
     const decrementCell = (cell) => cell.setAttribute("counter", getCounter(cell) - 1);
-    
+
     td.classList.toggle("clicked");
 
     const modifyCell = cellActive(td) ? incrementCell : decrementCell;
