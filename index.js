@@ -37,7 +37,10 @@ fetch("data.json")
             const option = document.createElement("option");
             option.value = i;
             option.innerText = data[i].name;
-            if (data[i].values.length < 24) option.disabled = true;
+            if (data[i].values.length < 24) {
+                option.disabled = true;
+                option.innerText += ` (${data[i].values.length}/24)`;
+            }
             boardSelector.append(option);
         }
         boardSelector.addEventListener("change", boardSelected.bind(this, data));
