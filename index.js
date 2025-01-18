@@ -6,7 +6,7 @@ function createTable(arr) {
     const result = [];
 
     if (arr.length < 24)
-        throw new Error("Not enough data")
+        throw new Error("Not enough data");
 
     let randomIndex;
 
@@ -62,7 +62,7 @@ function boardSelected(data) {
             const td = document.createElement("td");
             if (square != null) {
                 td.innerText = square;
-                td.addEventListener("click", cellClicked.bind(this, td, i, j))
+                td.addEventListener("click", cellClicked.bind(this, td, i, j));
             } else {
                 td.classList.add("clicked");
             }
