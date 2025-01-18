@@ -92,9 +92,9 @@ function boardSelected(data) {
 function cellClicked(td, i, j) {
     const cellActive = (cell) => cell.classList.contains("clicked");
     const getCounter = (cell) => parseInt(cell.getAttribute("counter"));
-    const incrementCell = (cell) => {bingoes++; cell.setAttribute("counter", getCounter(cell) + 1)};
-    const decrementCell = (cell) => {bingoes--; cell.setAttribute("counter", getCounter(cell) - 1)};
-    
+    const incrementCell = (cell) => cell.setAttribute("counter", getCounter(cell) + 1);
+    const decrementCell = (cell) => cell.setAttribute("counter", getCounter(cell) - 1);
+
     td.classList.toggle("clicked");
 
     const modifyCell = cellActive(td) ? incrementCell : decrementCell;
