@@ -43,7 +43,7 @@ fetch("data.json")
             }
             boardSelector.append(option);
         }
-        boardSelector.addEventListener("change", boardSelected.bind(this, data));
+        boardSelector.addEventListener("change", boardSelected.bind(null, data));
     })
     .catch(error => {
         console.error('Error loading the JSON file:', error);
@@ -62,7 +62,7 @@ function boardSelected(data) {
             const td = document.createElement("td");
             if (square != null) {
                 td.innerText = square;
-                td.addEventListener("click", cellClicked.bind(this, td, i, j));
+                td.addEventListener("click", cellClicked.bind(null, td, i, j));
             } else {
                 td.classList.add("clicked");
             }
