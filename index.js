@@ -74,24 +74,41 @@ function boardSelected(data) {
 }
 
 function cellClicked(td, i, j) {
-    const cellActive = (cell) => cell.classList.contains("clicked");
-    const getCounter = (cell) => parseInt(cell.getAttribute("counter"));
-    const incrementCell = (cell) => cell.setAttribute("counter", getCounter(cell) + 1);
-    const decrementCell = (cell) => cell.setAttribute("counter", getCounter(cell) - 1);
+    const cellActive = cell => cell.classList.contains("clicked");
+    const getCounter = cell => parseInt(cell.getAttribute("counter"));
+    const incrementCell = cell => cell.setAttribute("counter", getCounter(cell) + 1);
+    const decrementCell = cell => cell.setAttribute("counter", getCounter(cell) - 1);
 
     td.classList.toggle("clicked");
 
-    const modifyCell = cellActive(td) ? incrementCell : decrementCell;
+    const potentialBingoes = [
+        // Same row
+        [...table.children[i].children],
+        // Same column
+        [...table.children].map(row => row.children[j]),
+    ];
 
-    if ([...table.children[i].children].filter(cell => cell != td).every(cellActive)) {
-        [...table.children[i].children].forEach(modifyCell);
-    }
-    if ([...table.children].map(row => row.children[j]).filter(cell => cell != td).every(cellActive)) {
-        [...table.children].map(row => row.children[j]).forEach(modifyCell);
-    }
-    if (i == j && [...table.children].map((row, i) => row.children[i]).filter(cell => cell != td).every(cellActive)) {
-        [...table.children].map((row, i) => row.children[i]).forEach(modifyCell);
-    } else if (i == 4 - j && [...table.children].map((row, i) => row.children[4 - i]).filter(cell => cell != td).every(cellActive)) {
-        [...table.children].map((row, i) => row.children[4 - i]).forEach(modifyCell);
-    }
+    // Main diagonal
+    if (i == j)
+        potentialBingoes.push([...table.children].map((row, i) => row.children[i]));
+
+    // Secondary diagonal
+    if (i == 4 - j)
+        potentialBingoes.push([...table.children].map((row, i) => row.children[4 - i]));
+
+    potentialBingoes
+        .filter(cells => cells
+                .filter(cell => cell != td)
+                .every(cellActive)) // Select actual (former) bingoes
+        .forEach(cells =>
+            cells.forEach((cell, index) => {
+                // Decrement if we've just lost a bingo
+                if (!cellActive(td)) return decrementCell(cell);
+
+                // Set distance and increment if we've gained a bingo
+                // this is L∞ norm
+                cell.setAttribute("distance", Math.max(Math.abs(index - i), Math.abs(index - j)));
+                return incrementCell(cell);
+            })
+        );
 }
