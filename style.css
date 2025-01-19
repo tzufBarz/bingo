@@ -58,6 +58,43 @@ body {
     background-color: #f3f3f3;
     outline: none;
     transform: none;
+    transition-delay: 0s;
+}
+
+.bingo-container td.clicked[distance="1"] {
+    background: #46f32f;
+    color: black;
+    transform: scale(0.9);
+    transition-delay: 0.1s;
+}
+
+.bingo-container td.clicked[distance="2"] {
+    background: #46f32f;
+    color: black;
+    transform: scale(0.9);
+    transition-delay: 0.2s;
+}
+
+.bingo-container td.clicked[distance="3"] {
+    background: #46f32f;
+    color: black;
+    transform: scale(0.9);
+    transition-delay: 0.3s;
+}
+
+.bingo-container td.clicked[distance="4"] {
+    background: #46f32f;
+    color: black;
+    transform: scale(0.9);
+    transition-delay: 0.4s;
+}
+
+
+.bingo-container td.clicked[counter="0"] {
+    background-color: #f3f3f3 !important;
+    outline: none !important;
+    transform: none !important;
+    transition-delay: 0s !important;
 }
 
 #board-selector {
