@@ -95,7 +95,7 @@ function cellClicked(td, i, j) {
 
     // Secondary diagonal
     if (i == 4 - j)
-        potentialBingoes.push([...table.children].map((row, i) => [row.children[4 - i], Math.abs(j - i)]));
+        potentialBingoes.push([...table.children].map((row, idx) => [row.children[4 - i], Math.abs(i - idx)]));
 
     potentialBingoes
         .filter(cells => cells
