@@ -65,6 +65,7 @@ function boardSelected(data) {
                 td.addEventListener("click", cellClicked.bind(null, td, i, j));
             } else {
                 td.classList.add("clicked");
+                td.classList.add("centre");
             }
             td.setAttribute("counter", 0);
             tr.append(td);

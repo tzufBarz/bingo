@@ -44,6 +44,10 @@ body {
     transform: scale(0.9);
 }
 
+.bingo-container td.centre[counter="0"]:hover {
+    transform: none;
+}
+
 .bingo-container td.clicked {
     background: #46f32f;
     color: black;
