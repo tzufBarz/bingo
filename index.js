@@ -83,31 +83,32 @@ function cellClicked(td, i, j) {
 
     const potentialBingoes = [
         // Same row
-        [...table.children[i].children],
+        [...table.children[i].children].map((cell, col) => [cell, i, col]),
         // Same column
-        [...table.children].map(row => row.children[j]),
+        [...table.children].map(row => row.children[j]).map((cell, row) => [cell, row, j]),
     ];
 
     // Main diagonal
     if (i == j)
-        potentialBingoes.push([...table.children].map((row, i) => row.children[i]));
+        potentialBingoes.push([...table.children].map((row, i) => row.children[i]).map((cell, i) => [cell, i, i]));
 
     // Secondary diagonal
     if (i == 4 - j)
-        potentialBingoes.push([...table.children].map((row, i) => row.children[4 - i]));
+        potentialBingoes.push([...table.children].map((row, i) => row.children[4 - i]).map((cell, i) => [cell, i, 4 - i]));
 
     potentialBingoes
         .filter(cells => cells
+                .map(([cell, _, __]) => cell)
                 .filter(cell => cell != td)
                 .every(cellActive)) // Select actual (former) bingoes
         .forEach(cells =>
-            cells.forEach((cell, index) => {
+            cells.forEach(([cell, row, col]) => {
                 // Decrement if we've just lost a bingo
                 if (!cellActive(td)) return decrementCell(cell);
 
                 // Set distance and increment if we've gained a bingo
                 // this is L∞ norm
-                cell.setAttribute("distance", Math.max(Math.abs(index - i), Math.abs(index - j)));
+                cell.setAttribute("distance", Math.max(Math.abs(row - i), Math.abs(col - j)));
                 return incrementCell(cell);
             })
         );
