@@ -91,11 +91,11 @@ function cellClicked(td, i, j) {
 
     // Main diagonal
     if (i == j)
-        potentialBingoes.push([...table.children].map((row, i) => [row.children[i], Math.abs(j - i)]);
+        potentialBingoes.push([...table.children].map((row, i) => [row.children[i], Math.abs(j - i)]));
 
     // Secondary diagonal
     if (i == 4 - j)
-        potentialBingoes.push([...table.children].map((row, i) => [row.children[4 - i], Math.abs(j - i)]);
+        potentialBingoes.push([...table.children].map((row, i) => [row.children[4 - i], Math.abs(j - i)]));
 
     potentialBingoes
         .filter(cells => cells
