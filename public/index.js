@@ -14,6 +14,10 @@ function sendMessage(msg) {
 
 const table = document.querySelector(".bingo-container table");
 const boardSelector = document.getElementById("board-selector");
+const captureButton = document.getElementById("capture-button");
+const shareButton = document.getElementById("share-button");
+
+if (!navigator.share) shareButton.style.display = "none";
 
 let bingoes = 0;
 
@@ -60,6 +64,7 @@ fetch("data.json")
             boardSelector.append(option);
         }
         boardSelector.addEventListener("change", boardSelected.bind(null, data));
+        captureButton.addEventListener("click", captureClicked);
     })
     .catch(error => {
         console.error('Error loading the JSON file:', error);
@@ -68,6 +73,9 @@ fetch("data.json")
 
 function boardSelected(data) {
     table.innerHTML = '';
+    captureButton.disabled = true;
+    shareButton.disabled = true;
+
     if (boardSelector.value < 0) return;
     let tableData = createTable(data[parseInt(boardSelector.value)]["values"]);
     for (const i in tableData) {
@@ -88,6 +96,8 @@ function boardSelected(data) {
         }
         table.append(tr);
     }
+
+    captureButton.disabled = false;
 }
 
 function cellClicked(td, i, j) {
@@ -129,4 +139,33 @@ function cellClicked(td, i, j) {
                 return incrementCell(cell);
             })
         );
+}
+
+function downloadCapture(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+async function captureClicked() {
+    const filename = `bingo-result-${Date.now()}.png`;
+    const canvas = await html2canvas(table);
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+
+    const file = new File([blob], filename);
+    const toShare = {
+        title: "Results of Bingo",
+        files: [file],
+    };
+    if (!navigator.share || !navigator.canShare(toShare)) {
+        downloadCapture(blob, filename);
+        return;
+    }
+
+    shareButton.disabled = false;
+    shareButton.addEventListener("click", () => navigator.share(toShare).catch(error => downloadCapture(blob, filename)));
 }
