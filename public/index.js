@@ -21,12 +21,12 @@ if (!navigator.share) shareButton.style.display = "none";
 
 let bingoes = 0;
 
-function createTable(arr) {
+function createTable(arr, partial = false) {
+    if (arr.length < 24)
+        return createTable(arr.concat(Array(24 - arr.length).fill("")), true);
+
     const selectedIndices = new Set();
     const result = [];
-
-    if (arr.length < 24)
-        throw new Error("Not enough data");
 
     let randomIndex;
 
@@ -47,7 +47,7 @@ function createTable(arr) {
         }
     }
 
-    return result;
+    return [result, partial];
 }
 
 fetch("data.json")
@@ -57,10 +57,7 @@ fetch("data.json")
             const option = document.createElement("option");
             option.value = i;
             option.innerText = data[i].name;
-            if (data[i].values.length < 24) {
-                option.disabled = true;
-                option.innerText += ` (${data[i].values.length}/24)`;
-            }
+            if (data[i].values.length < 24) option.innerText += ` (${data[i].values.length}/24)`;
             boardSelector.append(option);
         }
         boardSelector.addEventListener("change", boardSelected.bind(null, data));
@@ -77,36 +74,36 @@ function boardSelected(data) {
     shareButton.disabled = true;
 
     if (boardSelector.value < 0) return;
-    let tableData = createTable(data[parseInt(boardSelector.value)]["values"]);
-    for (const i in tableData) {
-        const row = tableData[i];
+    const [tableData, partial] = createTable(data[parseInt(boardSelector.value)]["values"]);
+    tableData.forEach((row, i) => {
         const tr = document.createElement("tr");
-        for (const j in row) {
-            const square = row[j];
+        row.forEach((square, j) => {
             const td = document.createElement("td");
             if (square != null) {
                 td.innerText = square;
-                td.addEventListener("click", cellClicked.bind(null, td, i, j));
+                td.addEventListener("click", cellClicked.bind(null, td, i, j, partial));
             } else {
                 td.classList.add("clicked");
                 td.classList.add("centre");
             }
             td.setAttribute("counter", 0);
             tr.append(td);
-        }
+        });
         table.append(tr);
-    }
-
+    });
     captureButton.disabled = false;
 }
 
-function cellClicked(td, i, j) {
+function cellClicked(td, i, j, partial) {
     const cellActive = cell => cell.classList.contains("clicked");
     const getCounter = cell => parseInt(cell.getAttribute("counter"));
     const incrementCell = cell => cell.setAttribute("counter", getCounter(cell) + 1);
     const decrementCell = cell => cell.setAttribute("counter", getCounter(cell) - 1);
 
     td.classList.toggle("clicked");
+
+    // Don't bingo for partial boards
+    if (partial) return;
 
     const potentialBingoes = [
         // Same row
