@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" defer></script>
+    <script src="index.js" defer></script>
 </head>
 <body>
     <div class="bingo-container">
@@ -12,9 +14,10 @@
     </div>
 
     <select id="board-selector">
-        <option value="-1">בחר לוח</option>
+        <option value="-1">בחרו לוח</option>
     </select>
 
-    <script src="index.js"></script>
+    <button id="capture-button" disabled>צלמו</button>
+    <button id="share-button" disabled>שתפו</button>
 </body>
 </html>

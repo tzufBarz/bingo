@@ -92,6 +92,18 @@ body {
     top: 5.5vmin; 
 }
 
+#capture-button {
+    position: absolute;
+    right: 5.5vmin;
+    top: 11vmin;
+}
+
+#share-button {
+    position: absolute;
+    right: 5.5vmin;
+    top: 16.5vmin;
+}
+
 @media print {
     /* Hide header and footer */
     @page {
@@ -103,6 +115,14 @@ body {
     }
 
     #board-selector {
+        display: none;
+    }
+
+    #capture-button {
+        display: none;
+    }
+
+    #share-button {
         display: none;
     }
 
