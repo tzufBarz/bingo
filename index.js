@@ -74,10 +74,9 @@ function boardSelected(data) {
             tr.append(td);
         });
         table.append(tr);
-    }
-    captureButton.disabled = false;
     });
-}
+    captureButton.disabled = false;
+    }
 
 function cellClicked(td, i, j, partial) {
     const cellActive = cell => cell.classList.contains("clicked");
