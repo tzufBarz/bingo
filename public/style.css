@@ -113,6 +113,10 @@ body {
     color: white;
 }
 
+#players .self {
+    text-decoration: underline;
+}
+
 @media print {
     /* Hide header and footer */
     @page {

@@ -24,6 +24,10 @@ socket.on("addPlayer", ({name, bingoes}) => {
     players.append(playerElement);
 });
 
+socket.on("joinFinished", () => {
+    players.lastChild.classList.add("self");
+})
+
 socket.on("removePlayer", (index) => {
     players.children[index].remove();
 })
