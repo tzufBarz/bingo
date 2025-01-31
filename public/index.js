@@ -1,5 +1,21 @@
+const socket = io();  // Automatically connects to the server
+
+socket.on("connect", () => {
+    console.log("Connected to server!");
+});
+
+socket.on("message", (data) => {
+    console.log("Message from server:", data);
+});
+
+function sendMessage(msg) {
+    socket.emit("message", msg);  // Send a message to the server
+}
+
 const table = document.querySelector(".bingo-container table");
 const boardSelector = document.getElementById("board-selector");
+
+let bingoes = 0;
 
 function createTable(arr) {
     const selectedIndices = new Set();
@@ -71,8 +87,8 @@ function boardSelected(data) {
 function cellClicked(td, i, j) {
     const cellActive = (cell) => cell.classList.contains("clicked");
     const getCounter = (cell) => parseInt(cell.getAttribute("counter"));
-    const incrementCell = (cell) => cell.setAttribute("counter", getCounter(cell) + 1);
-    const decrementCell = (cell) => cell.setAttribute("counter", getCounter(cell) - 1);
+    const incrementCell = (cell) => {bingoes++; cell.setAttribute("counter", getCounter(cell) + 1)};
+    const decrementCell = (cell) => {bingoes--; cell.setAttribute("counter", getCounter(cell) - 1)};
     
     td.classList.toggle("clicked");
 
