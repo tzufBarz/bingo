@@ -1,16 +1,36 @@
-const socket = io();  // Automatically connects to the server
+const playerName = prompt("Enter name:");
 
-socket.on("connect", () => {
-    console.log("Connected to server!");
-});
+const socket = io();
+socket.emit("join", playerName)
 
-socket.on("message", (data) => {
-    console.log("Message from server:", data);
+socket.on("sendMessage", (message) => {
+    console.log(message);
 });
 
 function sendMessage(msg) {
-    socket.emit("message", msg);  // Send a message to the server
+    socket.emit("sendMessage", msg);
 }
+
+const players = document.getElementById("players");
+
+socket.on("addPlayer", ({name, bingoes}) => {
+    const playerElement = document.createElement("div");
+    const playerNameElement = document.createElement("span");
+    const playerBingoesElement = document.createElement("span");
+    playerNameElement.innerText = `${name}: `;
+    playerBingoesElement.innerText = `${bingoes}`;
+    playerElement.append(playerNameElement);
+    playerElement.append(playerBingoesElement);
+    players.append(playerElement);
+});
+
+socket.on("removePlayer", (index) => {
+    players.children[index].remove();
+})
+
+socket.on("updateBingoes", ({playerIndex, newBingoes}) => {
+    players.children[playerIndex].children[1].innerText = `${newBingoes}`;
+});
 
 const table = document.querySelector(".bingo-container table");
 const boardSelector = document.getElementById("board-selector");
@@ -20,6 +40,10 @@ const shareButton = document.getElementById("share-button");
 if (!navigator.share) shareButton.style.display = "none";
 
 let bingoes = 0;
+
+function updateBingoes() {
+    socket.emit("updateBingoes", bingoes);
+}
 
 function createTable(arr, partial = false) {
     if (arr.length < 24)
@@ -125,7 +149,9 @@ function cellClicked(td, i, j, partial) {
                 .map(([cell, _]) => cell)
                 .filter(cell => cell != td)
                 .every(cellActive)) // Select actual (former) bingoes
-        .forEach(cells =>
+        .forEach(cells => {
+            bingoes += 2 * cellActive(td) - 1;
+            updateBingoes();
             cells.forEach(([cell, distance]) => {
                 // Decrement if we've just lost a bingo
                 if (!cellActive(td)) return decrementCell(cell);
@@ -134,8 +160,8 @@ function cellClicked(td, i, j, partial) {
                 // this is L∞ norm
                 cell.setAttribute("distance", distance);
                 return incrementCell(cell);
-            })
-        );
+            });
+        });
 }
 
 function downloadCapture(blob, filename) {

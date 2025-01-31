@@ -6,18 +6,34 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.use(express.static("public")); // Serve your static files
+const players = []
+
+app.use(express.static("public"));
 
 io.on("connection", (socket) => {
-    console.log("A user connected");
+    const player = { name: undefined, bingoes: 0 };
 
-    socket.on("message", (data) => {
-        io.emit("message", data); // Broadcast messages to all users
+    socket.on("join", (playerName) => {
+        player.name = playerName;
+        players.push(player);
+        socket.broadcast.emit("addPlayer", player);
+        players.forEach(currPlayer => {socket.emit("addPlayer", currPlayer)});
+    })
+
+    socket.on("sendMessage", (message) => {
+        socket.broadcast.emit("sendMessage", `${player.name}: ${message}`);
     });
 
     socket.on("disconnect", () => {
-        console.log("A user disconnected");
+        let playerIndex = players.indexOf(player);
+        socket.broadcast.emit("removePlayer", playerIndex)
+        players.splice(playerIndex, 1);
     });
+
+    socket.on("updateBingoes", (newBingoes) => {
+        player.bingoes = newBingoes;
+        io.emit("updateBingoes", {playerIndex: players.indexOf(player), newBingoes: newBingoes});
+    })
 });
 
 server.listen(3000, () => {

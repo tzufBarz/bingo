@@ -104,15 +104,6 @@ body {
     top: 16.5vmin;
 }
 
-#players {
-    position: absolute;
-    left: 5.5vmin;
-    top: 5.5vmin;
-    display: flex;
-    flex-direction: column;
-    color: white;
-}
-
 @media print {
     /* Hide header and footer */
     @page {

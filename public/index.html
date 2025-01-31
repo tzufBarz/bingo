@@ -9,6 +9,8 @@
     <script src="index.js" defer></script>
 </head>
 <body>
+    <div id="players"></div>
+
     <div class="bingo-container">
         <table></table>
     </div>
@@ -17,9 +19,9 @@
         <option value="-1">בחרו לוח</option>
     </select>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="index.js"></script>
     <button id="capture-button" disabled>צלמו</button>
     <button id="share-button" disabled>שתפו</button>
+
+    <script src="/socket.io/socket.io.js"></script>
 </body>
 </html>
