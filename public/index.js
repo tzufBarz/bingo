@@ -3,14 +3,6 @@ const playerName = prompt("Enter name:");
 const socket = io();
 socket.emit("join", playerName)
 
-socket.on("sendMessage", (message) => {
-    console.log(message);
-});
-
-function sendMessage(msg) {
-    socket.emit("sendMessage", msg);
-}
-
 const players = document.getElementById("players");
 
 socket.on("addPlayer", ({name, bingoes}) => {
@@ -42,6 +34,32 @@ const table = document.querySelector(".bingo-container table");
 const boardSelector = document.getElementById("board-selector");
 const captureButton = document.getElementById("capture-button");
 const shareButton = document.getElementById("share-button");
+
+const chat = document.getElementById("chat");
+const chatInput = document.getElementById("chat-input");
+const chatSendButton = document.getElementById("send-button");
+
+function writeMessage(msg) {
+    chat.textContent += `\n${msg}`
+    chat.scrollTop = chat.scrollHeight;
+}
+
+socket.on("sendMessage", writeMessage);
+
+function sendMessage(msg) {
+    writeMessage(msg);
+    socket.emit("sendMessage", msg);
+}
+
+function sendMessageClick() {
+    if (chatInput.value) {
+        sendMessage(chatInput.value);
+        chatInput.value = "";
+    }
+}
+
+chatInput.addEventListener("keypress", (event) => { if (event.key == "Enter") sendMessageClick(); });
+chatSendButton.addEventListener("click", sendMessageClick)
 
 if (!navigator.share) shareButton.style.display = "none";
 

@@ -118,6 +118,37 @@ body {
     transform: scale(1.05);
 }
 
+#chat {
+    position: absolute;
+    left: 25vmin;
+    transform: translateX(-100%);
+    top: 30vmin;
+    resize: none;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    height: 50vh;
+}
+
+#chat-input {
+    position: absolute;
+    left: 25vmin;
+    transform: translateX(-100%);
+    top: 20vmin;
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+}
+
+#send-button {
+    position: absolute;
+    left: 27vmin;
+    top: 20vmin;
+}
+
 @media print {
     /* Hide header and footer */
     @page {
