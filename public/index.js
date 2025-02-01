@@ -1,9 +1,74 @@
+const playerName = prompt("הכנס שם:");
+
+const socket = io();
+socket.emit("join", playerName)
+
+const players = document.getElementById("players");
+
+socket.on("addPlayer", ({name, bingoes}) => {
+    const playerElement = document.createElement("div");
+    const playerNameElement = document.createElement("span");
+    const playerBingoesElement = document.createElement("span");
+    playerNameElement.innerText = `${name}: `;
+    playerBingoesElement.innerText = `${bingoes}`;
+    playerElement.append(playerNameElement);
+    playerElement.append(playerBingoesElement);
+    players.append(playerElement);
+    playerElement.style.order = -bingoes;
+});
+
+socket.on("joinFinished", () => {
+    players.lastChild.classList.add("self");
+})
+
+socket.on("removePlayer", (index) => {
+    players.children[index].remove();
+})
+
+socket.on("updateBingoes", ({playerIndex, newBingoes}) => {
+    const player = players.children[playerIndex];
+    player.children[1].innerText = `${newBingoes}`;
+    player.style.order = -newBingoes;
+});
+
 const table = document.querySelector(".bingo-container table");
 const boardSelector = document.getElementById("board-selector");
 const captureButton = document.getElementById("capture-button");
 const shareButton = document.getElementById("share-button");
 
+const chat = document.getElementById("chat");
+const chatInput = document.getElementById("chat-input");
+const chatSendButton = document.getElementById("send-button");
+
+function writeMessage(msg) {
+    chat.textContent += `\n${msg}`
+    chat.scrollTop = chat.scrollHeight;
+}
+
+socket.on("sendMessage", writeMessage);
+
+function sendMessage(msg) {
+    writeMessage(msg);
+    socket.emit("sendMessage", msg);
+}
+
+function sendMessageClick() {
+    if (chatInput.value) {
+        sendMessage(chatInput.value);
+        chatInput.value = "";
+    }
+}
+
+chatInput.addEventListener("keypress", (event) => { if (event.key == "Enter") sendMessageClick(); });
+chatSendButton.addEventListener("click", sendMessageClick)
+
 if (!navigator.share) shareButton.style.display = "none";
+
+let bingoes = 0;
+
+function updateBingoes() {
+    socket.emit("updateBingoes", bingoes);
+}
 
 function createTable(arr, partial = false) {
     if (arr.length < 24)
@@ -76,7 +141,7 @@ function boardSelected(data) {
         table.append(tr);
     });
     captureButton.disabled = false;
-    }
+}
 
 function cellClicked(td, i, j, partial) {
     const cellActive = cell => cell.classList.contains("clicked");
@@ -109,7 +174,9 @@ function cellClicked(td, i, j, partial) {
                 .map(([cell, _]) => cell)
                 .filter(cell => cell != td)
                 .every(cellActive)) // Select actual (former) bingoes
-        .forEach(cells =>
+        .forEach(cells => {
+            bingoes += 2 * cellActive(td) - 1;
+            updateBingoes();
             cells.forEach(([cell, distance]) => {
                 // Decrement if we've just lost a bingo
                 if (!cellActive(td)) return decrementCell(cell);
@@ -118,8 +185,8 @@ function cellClicked(td, i, j, partial) {
                 // this is L∞ norm
                 cell.setAttribute("distance", distance);
                 return incrementCell(cell);
-            })
-        );
+            });
+        });
 }
 
 function downloadCapture(blob, filename) {

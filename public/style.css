@@ -104,6 +104,49 @@ body {
     top: 16.5vmin;
 }
 
+#players {
+    position: absolute;
+    left: 5.5vmin;
+    top: 5.5vmin;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+#players .self {
+    color: #ffe7a6;
+    transform: scale(1.05);
+}
+
+#chat {
+    position: absolute;
+    right: 5.5vmin;
+    top: 30vmin;
+    resize: none;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    height: 50vh;
+}
+
+#chat-input {
+    position: absolute;
+    right: 12vmin;
+    top: 20vmin;
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+}
+
+#send-button {
+    position: absolute;
+    right: 5.5vmin;
+    top: 20vmin;
+}
+
 @media print {
     /* Hide header and footer */
     @page {
