@@ -99,7 +99,7 @@ function createTable(arr, partial = false) {
     return [result, partial];
 }
 
-fetch("data.json")
+fetch("/data.json")
     .then(response => response.json())
     .then(data => {
         for (const i in data) {

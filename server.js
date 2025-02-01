@@ -8,6 +8,16 @@ const io = new Server(server);
 
 const players = []
 
+app.get("/data.json", async (req, res) => {
+    try {
+    const response = await fetch("https://raw.githubusercontent.com/tzufBarz/bingo/refs/heads/data/data.json");
+    const data = await response.json();
+    if (!response.ok) res.status(response.status);
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error", details: error.message, });
+    }
+});
 app.use(express.static("public"));
 
 io.on("connection", (socket) => {
