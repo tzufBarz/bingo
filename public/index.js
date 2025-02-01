@@ -175,7 +175,8 @@ function cellClicked(td, i, j, partial) {
                 .filter(cell => cell != td)
                 .every(cellActive)) // Select actual (former) bingoes
         .forEach(cells => {
-            bingoes += 2 * cellActive(td) - 1;
+            if (cellActive(td)) bingoes++;
+            else bingoes--;
             updateBingoes();
             cells.forEach(([cell, distance]) => {
                 // Decrement if we've just lost a bingo
