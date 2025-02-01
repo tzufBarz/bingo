@@ -114,7 +114,8 @@ body {
 }
 
 #players .self {
-    text-decoration: underline;
+    color: #ffe7a6;
+    transform: scale(1.05);
 }
 
 @media print {
