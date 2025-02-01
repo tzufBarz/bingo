@@ -14,6 +14,7 @@ socket.on("addPlayer", ({name, bingoes}) => {
     playerElement.append(playerNameElement);
     playerElement.append(playerBingoesElement);
     players.append(playerElement);
+    playerElement.style.order = -bingoes;
 });
 
 socket.on("joinFinished", () => {
