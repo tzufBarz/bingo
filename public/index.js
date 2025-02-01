@@ -33,7 +33,9 @@ socket.on("removePlayer", (index) => {
 })
 
 socket.on("updateBingoes", ({playerIndex, newBingoes}) => {
-    players.children[playerIndex].children[1].innerText = `${newBingoes}`;
+    const player = players.children[playerIndex];
+    player.children[1].innerText = `${newBingoes}`;
+    player.style.order = -newBingoes;
 });
 
 const table = document.querySelector(".bingo-container table");
