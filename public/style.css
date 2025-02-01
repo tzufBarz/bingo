@@ -120,8 +120,7 @@ body {
 
 #chat {
     position: absolute;
-    left: 25vmin;
-    transform: translateX(-100%);
+    right: 5.5vmin;
     top: 30vmin;
     resize: none;
     background: none;
@@ -133,8 +132,7 @@ body {
 
 #chat-input {
     position: absolute;
-    left: 25vmin;
-    transform: translateX(-100%);
+    right: 12vmin;
     top: 20vmin;
     background: none;
     outline: none;
@@ -145,7 +143,7 @@ body {
 
 #send-button {
     position: absolute;
-    left: 27vmin;
+    right: 5.5vmin;
     top: 20vmin;
 }
 
