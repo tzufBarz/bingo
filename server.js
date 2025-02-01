@@ -17,7 +17,7 @@ io.on("connection", (socket) => {
         player.name = playerName;
         players.push(player);
         socket.broadcast.emit("addPlayer", player);
-        players.forEach(currPlayer => {socket.emit("addPlayer", currPlayer)});
+        players.forEach(socket.emit.bind(socket, "addPlayer"));
         socket.emit("joinFinished");
     })
 
