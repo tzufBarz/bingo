@@ -1,4 +1,4 @@
-const playerName = prompt("Enter name:");
+const playerName = prompt("הכנס שם:");
 
 const socket = io();
 socket.emit("join", playerName)
