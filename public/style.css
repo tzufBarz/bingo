@@ -181,5 +181,7 @@ body {
 
 
 @media only screen and (max-width: 600px) {
-    height: 20vw;
+    #chat {
+         height: 20vw;
+    }
 }
