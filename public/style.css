@@ -178,3 +178,8 @@ body {
         border-radius: 0;
     }
 }
+
+
+@media only screen and (max-width: 600px) {
+    height: 20vw;
+}
