@@ -23,6 +23,8 @@ app.use(express.static("public"));
 io.on("connection", (socket) => {
     const player = { name: undefined, bingoes: 0 };
 
+    socket.emit("getName");
+
     socket.on("join", (playerName) => {
         player.name = playerName;
         players.push(player);

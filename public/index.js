@@ -1,9 +1,13 @@
 const playerName = prompt("הכנס שם:");
 
 const socket = io();
-socket.emit("join", playerName)
 
 const players = document.getElementById("players");
+
+socket.on("getName", () => {
+    players.innerHTML = "";
+    socket.emit("join", playerName);
+})
 
 socket.on("addPlayer", ({name, bingoes}) => {
     const playerElement = document.createElement("div");
